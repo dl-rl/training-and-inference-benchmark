@@ -16,8 +16,14 @@ env/bin/python3 prepare_yaml.py
 # Also, I had to run the training phases as separate python scripts because YOLO was taking a big pause while running 
 # multiple training sessions within the same script.
 ################################################################################################################################
-epochs_1=4
-epochs_2=15
+
+# Run a warmup session
+env/bin/python3 training_benchmark.py 10 $1
+rm -rf runs
+
+# Actual runs
+epochs_1=10
+epochs_2=25
 env/bin/python3 training_benchmark.py $epochs_1 $1
 env/bin/python3 training_benchmark.py $epochs_2 $1
 env/bin/python3 parse_training_times.py $epochs_1 $epochs_2

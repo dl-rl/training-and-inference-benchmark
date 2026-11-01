@@ -13,8 +13,15 @@ except:
 model = YOLO("yolo11l.pt")
 
 ############# Inference #############
-inference_n_passes = 50
+buffer_n_passes = 10
+inference_n_passes = 20
 inference_batch_size = 30
+
+for i in range(buffer_n_passes):
+  print(f"\n\nWarmup {i+1}:-")
+  # Run batched inference
+  input_list = ["sample_image.png"] * inference_batch_size
+  results = model.predict(input_list, save=False, imgsz=640, device=device)
 
 sum_average_inference_time_in_milliseconds = 0
 for i in range(inference_n_passes):

@@ -5,8 +5,10 @@ from ultralytics import YOLO
 import torch
 import sys
 import time
+import os
+script_directory = f"{os.path.dirname(__file__)}"
 
-batch = 32
+batch = 16
 epochs = int(sys.argv[1])
 try:
   device = sys.argv[2]
@@ -18,7 +20,7 @@ except:
 ############# Training #############
 model = YOLO("yolo11l.pt")
 start_time = time.time()
-results = model.train(data="data/custom.yaml", epochs=epochs, imgsz=640, batch=batch, val=False, save=False, patience=0, device=device)
+results = model.train(data="data/custom.yaml", epochs=epochs, imgsz=640, batch=batch, val=False, save=False, patience=0, device=device, project=f"{script_directory}/runs/detect")
 stop_time = time.time()
 training_time_in_seconds = stop_time - start_time
 
